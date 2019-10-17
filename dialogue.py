@@ -42,7 +42,7 @@ class Dialogue():
 			for c in i:
 				print(c, end='')
 				time.sleep(0.04)
-			time.sleep(0.7)
+			time.sleep(0.6)
 		self.disable.stop()
 		return ""
 	

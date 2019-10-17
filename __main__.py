@@ -1,7 +1,7 @@
 from __init__ import *
-from story import *
+from story import story as s
 from game import *
 
-g = Game(story)
+g = Game(s)
 g.Run()
 
