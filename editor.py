@@ -77,7 +77,7 @@ class Editor():
 	def ChangeID(self):
 		print("\n=<MOVE TO ID>{}\n\n Which ID would you like to move to?\n{}".format('='*67, '-'*80))
 		for e in (self.s.e):
-			print("{}) <{}>: {}".format(e, self.s.e[e].name, self.s.e[e].text[0:50]))
+			print("{}) <{}>: {}".format(e, self.s.e[e].name[0:20], self.s.e[e].text[0:59]))
 			for _exit in self.s.e[e].exits:
 				print(f"\t{_exit[0]}: {_exit[1]}")
 		requestedID = input("{}\nPlease give the entry ID you want to switch to\n\n> ".format('-'*80))
@@ -109,9 +109,9 @@ class Editor():
 	def ViewList(self):
 		print ("\n=<VIEW LIST>{}\n\n".format('='*68))
 		for e in (self.s.e):
-			print("{}) <{}>: {}".format(e, self.s.e[e].name, self.s.e[e].text[0:30]))
+			print("{}) <{}>: {}".format(e, self.s.e[e].name[0:20], self.s.e[e].text[0:72-len(self.s.e[e].name)]))
 			for _exit in self.s.e[e].exits:
-				print(f"\t{_exit[0]}: {_exit[1]}")
+				print(f"\t- {_exit[0]}: {_exit[1]}")
 	def Save(self):
 		confirm = input("Are you sure you want to overwrite any other data? I reccomend you save a copy of your old stuff. Enter (y)es or (n)o.\n\n> ")
 		if confirm.lower() == "y":
@@ -138,9 +138,7 @@ class Editor():
 		from story import story as s
 		for i in range(0, len(s)):
 			self.s.Add(Entry(s[i][0], s[i][1]))
-			print(s[i][2])
-			for c, _exit in enumerate(s[i][2]):
-				self.s.e[i].exits[c-1] = _exit
+			self.s.e[i].exits = s[i][2]
 			
 		
 			

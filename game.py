@@ -7,10 +7,16 @@ class Game():
 		
 	def Run(self):
 		while True:
-			print (f"<Page {self.i}>")
-			if self.s[self.i]:
-				entry = Dialogue(self.s[self.i])
-				entry.Say()
-				self.i = entry.Page()
+			if self.s[self.i][0] != "!quit":
+				if self.s[self.i]:
+					spacer = "."*(5-len(str(self.i)))
+					print(" "*(73-len(str(self.i)))+f"<{spacer}{self.i}>")
+					entry = Dialogue(self.s[self.i])
+					wait_duration = entry.Say()
+					self.i = entry.Page(wait_duration)
+				else:
+					self.i = 0
 			else:
-				self.i = 0
+				print(f"\n <!quit command recieved>\n\n Exiting Game...\n\n{window_dstrike}")
+				quit()
+					

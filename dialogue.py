@@ -1,29 +1,10 @@
 from __init__ import *
 
-class keyboardDisable():
-
-	def start(self):
-		self.on = True
-
-	def stop(self):
-		self.on = False
-
-	def __call__(self): 
-		while self.on:
-			msvcrt.getch()
-
-
-	def __init__(self):
-		self.on = False
-		import msvcrt
-
 class Dialogue():
 	def __init__(self, d):
 		self.name = d[0]
 		self.text = d[1]
 		self.exits = d[2]
-		self.disable = keyboardDisable()
-		
 		self.Process()
 
 	def Process(self):
@@ -34,40 +15,37 @@ class Dialogue():
 		#Name Insertion
 		temptext = self.text.split("!yn")
 		self.text = player_name.join(temptext)
+		
 
 	def Type(self, text):
-		self.disable.start()
-		textlist = text.split("!ps")
-		for i in textlist:
-			for c in i:
-				print(c, end='')
-				time.sleep(0.04)
-			time.sleep(0.6)
-		self.disable.stop()
-		return ""
+		text = text.split("!ps")
+		text = "".join(text)
+		print(tw.fill(text))
+		return 0.04*len(text)
 	
 	def Say(self):
-		self.disable.start()
+		
 		if self.name == "!no":
-			print(self.Type("{}".format(self.text)))
+			wait_duration = self.Type(f"{self.text}")
 		else:
-			print(self.Type(" <{}>: {}".format(self.name, self.text)))
-		self.disable.stop()
+			wait_duration = self.Type(f"<{self.name}>: {self.text}")
+		return wait_duration
 
-	def Page(self):
+	def Page(self, wait_duration):
 		if len(self.exits) > 1:
-			print (window_strike)
+			print (f"\n{window_strike}\n")
 			for i in enumerate (self.exits):
-				print (self.Type(" {} - {}".format(i[0]+1, i[1][0])))
+				self.Type("> Choice {} - {}\n".format(i[0]+1, i[1][0]))
+				print('')
 			while True:
 				chosen_exit = input("{}\n\n> ".format(window_strike))
 				for i in enumerate(self.exits):
 					if chosen_exit == str(i[0]+1):
-						print ("\n{}\n".format(window_dstrike))
+						print ("\n{}".format(window_dstrike))
 						return i[1][1]
 		else:
-			self.disable.start()
-			time.sleep(0.8)
-			self.disable.stop()
-			print ("\n{}\n".format(window_dstrike))
+			#print(f" DBUG> Progressing to page <{self.exits[0][1]}>")
+			print ("\n{}".format(window_dstrike))
+			time.sleep(wait_duration)
 			return self.exits[0][1]
+		
