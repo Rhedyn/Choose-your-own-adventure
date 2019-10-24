@@ -1,16 +1,17 @@
 from __init__ import *
 
 class Dialogue():
-	def __init__(self, d):
-		self.name = d[0]
-		self.text = d[1]
-		self.exits = d[2]
+	def __init__(self, d, p):
+		self.name = d[2]
+		self.p = p
+		self.text = d[3]
+		self.exits = d[4]
 		self.Process()
 
 	def Process(self):
 		#Name Replacement
 		if self.name == "!yn":
-			self.name = player_name
+			self.name = self.p.name
 
 		#Name Insertion
 		temptext = self.text.split("!yn")
@@ -43,6 +44,13 @@ class Dialogue():
 					if chosen_exit == str(i[0]+1):
 						print ("\n{}".format(window_dstrike))
 						return i[1][1]
+						
+					elif chosen_exit.lower() == "inv":
+						print(f"\n{window_pstrike}\n")
+						for i in self.p.inventory:
+							print(f"- {i} ({self.p.inventory[i]})")
+						print('')
+						break
 		else:
 			#print(f" DBUG> Progressing to page <{self.exits[0][1]}>")
 			print ("\n{}".format(window_dstrike))
